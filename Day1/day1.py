@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import (
     List,
     Tuple,
@@ -107,6 +108,8 @@ if __name__ == "__main__":
 
     # Test on your input and submit
     answer_a, answer_b = main(input)
+
+    dt = datetime(2023,12,1)
     print(f"Your input answers: \nA: {answer_a}\nB: {answer_b}")
-    submit_answer(answer_a, "a")
-    submit_answer(answer_b, "b")
+    submit_answer(answer_a, "a", dt=dt)
+    submit_answer(answer_b, "b", dt=dt)
