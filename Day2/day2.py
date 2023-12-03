@@ -10,7 +10,6 @@ from copy import deepcopy
 
 
 def parse(filename: str):
-
     with open(filename, "r") as f:
         lines: List[str] = f.read().strip().split("\n")
 
@@ -43,11 +42,7 @@ def part1(G: Dict[str, List[Dict]]):
     for g_id, g_sets in G.items():
         invalid = False
         for vals in g_sets:
-            if (
-                vals["red"] > MAX_R
-                or vals["green"] > MAX_G
-                or vals["blue"] > MAX_B
-            ):
+            if vals["red"] > MAX_R or vals["green"] > MAX_G or vals["blue"] > MAX_B:
                 invalid = True
                 break
         if not invalid:
@@ -57,7 +52,6 @@ def part1(G: Dict[str, List[Dict]]):
 
 
 def part2(G: Dict[str, List[Dict]]):
-
     score = 0
 
     for g_id, g_sets in G.items():
@@ -88,7 +82,6 @@ def main(filename: str) -> Tuple[Optional[int], Optional[int]]:
 
 
 if __name__ == "__main__":
-
     from utils import submit_answer
     from aocd.exceptions import AocdError
 

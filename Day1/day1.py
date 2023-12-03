@@ -58,9 +58,7 @@ def parse_2(filename: str):
                     matches.append(m)
 
         if matches:
-            repl.append(
-                [ret_num(matches[0], map_n), ret_num(matches[-1], map_n)]
-            )
+            repl.append([ret_num(matches[0], map_n), ret_num(matches[-1], map_n)])
 
     new_repl = [int("".join(x)) for x in repl]
     out = sum(new_repl)
@@ -85,7 +83,6 @@ def main(filename: str) -> Tuple[Optional[int], Optional[int]]:
 
 
 if __name__ == "__main__":
-
     from utils import submit_answer
     from aocd.exceptions import AocdError
 
@@ -109,7 +106,7 @@ if __name__ == "__main__":
     # Test on your input and submit
     answer_a, answer_b = main(input)
 
-    dt = datetime(2023,12,1)
+    dt = datetime(2023, 12, 1)
     print(f"Your input answers: \nA: {answer_a}\nB: {answer_b}")
     submit_answer(answer_a, "a", dt=dt)
     submit_answer(answer_b, "b", dt=dt)

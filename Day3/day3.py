@@ -1,20 +1,11 @@
-from collections import Counter, defaultdict, deque
-from datetime import datetime
-from functools import reduce, lru_cache
+from functools import reduce
 from typing import (
     List,
     Tuple,
-    Set,
     Dict,
-    Iterable,
-    DefaultDict,
     Optional,
-    Union,
-    Generator,
 )
 from copy import deepcopy
-from heapq import heappop, heappush
-import string
 
 
 def parse(filename: str):
@@ -23,12 +14,10 @@ def parse(filename: str):
 
     G = [list(line) for line in lines]
 
-    return lines
+    return G
 
 
-def get_neighbors(
-    matrix: List[List[int]], i: int, j: int, diagonal: bool = False
-) -> List[Tuple[int, int]]:
+def get_neighbors(matrix: List[List[int]], i: int, j: int) -> List[Tuple[int, int]]:
     neighbors = []
 
     num_rows = len(matrix)
@@ -43,28 +32,24 @@ def get_neighbors(
     if j + 1 < num_cols:
         neighbors.append((i, j + 1))
     # diagonal
-    if diagonal:
-        if i - 1 >= 0 and j - 1 >= 0:
-            neighbors.append((i - 1, j - 1))
-        if i - 1 >= 0 and j + 1 < num_cols:
-            neighbors.append((i - 1, j + 1))
-        if i + 1 < num_rows and j - 1 >= 0:
-            neighbors.append((i + 1, j - 1))
-        if i + 1 < num_rows and j + 1 < num_cols:
-            neighbors.append((i + 1, j + 1))
+    if i - 1 >= 0 and j - 1 >= 0:
+        neighbors.append((i - 1, j - 1))
+    if i - 1 >= 0 and j + 1 < num_cols:
+        neighbors.append((i - 1, j + 1))
+    if i + 1 < num_rows and j - 1 >= 0:
+        neighbors.append((i + 1, j - 1))
+    if i + 1 < num_rows and j + 1 < num_cols:
+        neighbors.append((i + 1, j + 1))
     return neighbors
 
 
 def run(G, p2=False):
     G = deepcopy(G)
     PART_NUMS = []
-    P: Dict[
-        str, Tuple[List[Tuple], int]
-    ] = (
-        {}
-    )  # for every part num key= {id: [position_idxs: List[Tuple], number_val: int]}
+    P: Dict[str, Tuple[List[Tuple], int]] = {}
+    # for every part num key= {id: [position_idxs: List[Tuple], number_val: int]}
 
-    p_cnt = 0
+    id_cnt = 0
     for i in range(len(G)):
         # Reset at every row
         is_part = False
@@ -78,7 +63,7 @@ def run(G, p2=False):
                 curr_digits.append(val)
                 curr_num_idxs.append((i, j))
                 if not is_part:
-                    for (ii, jj) in get_neighbors(G, i, j, True):
+                    for ii, jj in get_neighbors(G, i, j):
                         # if symbol --> IS PART NUMBER and stop search for neighbors in subsequent digits
                         if G[ii][jj] != "." and not G[ii][jj].isdigit():
                             is_part = True
@@ -90,8 +75,8 @@ def run(G, p2=False):
                     joined_num = int("".join(curr_digits))
                     if is_part:
                         PART_NUMS.append(joined_num)
-                        P[f"P{p_cnt}"] = curr_num_idxs, joined_num
-                        p_cnt += 1
+                        P[f"P{id_cnt}"] = curr_num_idxs, joined_num
+                        id_cnt += 1
                 curr_digits = []
                 curr_num_idxs = []
                 is_part = False
@@ -102,17 +87,17 @@ def run(G, p2=False):
             joined_num = int("".join(curr_digits))
             if is_part:
                 PART_NUMS.append(joined_num)
-                P[f"P{p_cnt}"] = curr_num_idxs, joined_num
-                p_cnt += 1
+                P[f"P{id_cnt}"] = curr_num_idxs, joined_num
+                id_cnt += 1
 
     if not p2:
         return sum(PART_NUMS)
 
     # P2
     # Construct new grid by replacing part numbers with their ID
-    GG = [list(l) for l in deepcopy(G)]
+    GG = deepcopy(G)
     for id_, (poss, val) in P.items():
-        for (ii, jj) in poss:
+        for ii, jj in poss:
             GG[ii][jj] = id_
 
     # Find gears and calculate score
@@ -122,7 +107,7 @@ def run(G, p2=False):
             curr = GG[i][j]
 
             if curr == "*":
-                neighs = get_neighbors(GG, i, j, True)
+                neighs = get_neighbors(GG, i, j)
 
                 parts = set()
                 for ii, jj in neighs:
@@ -155,7 +140,6 @@ def main(filename: str) -> Tuple[Optional[int], Optional[int]]:
 
 
 if __name__ == "__main__":
-
     from utils import submit_answer
     from aocd.exceptions import AocdError
 
