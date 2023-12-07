@@ -54,7 +54,8 @@ def convert_joker(hand: Hand) -> Hand:
         repl_val = most_freq if (most_freq != "J") else l_h[1][0]
         j_idx = l_id.index("J")
         l_id[j_idx] = repl_val
-        new_hand = Hand(l_id, hand.bid, hand.original_id)
+        new_id = "".join(l_id)
+        new_hand = Hand(new_id, hand.bid, hand.original_id)
         return convert_joker(new_hand)
     else:
         return hand
