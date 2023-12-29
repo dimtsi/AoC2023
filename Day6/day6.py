@@ -27,7 +27,6 @@ def parse(filename: str, p2=False):
 
 
 def run(lines, p2=False):
-
     res = []
     for d, rec in lines:
         wins = 0

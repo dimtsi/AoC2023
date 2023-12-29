@@ -64,7 +64,6 @@ def find_period(start: str, I: Deque[str], G: Dict[str, List[str]]) -> List[int]
 
 
 def runp2(instr: str, G: Dict[str, List[str]]) -> int:
-
     I = deque(instr)
     starts = [k for k in G if k.endswith("A")]
     periods = []

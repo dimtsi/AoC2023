@@ -29,7 +29,6 @@ def parse(filename: str):
 
 class Hand:
     def __init__(self, id_, bid, original_id):
-
         self.id_ = id_
         self.original_id = original_id
         # We custom sort to have the count in R_N Poker equality order as well e.g "55KKA" --> [("K", 2), ("5", 2), ("A", 1)]
@@ -43,7 +42,6 @@ class Hand:
 
 
 def convert_joker(hand: Hand) -> Hand:
-
     l_id = list(hand.id_)
     if "J" in hand.id_:
         if hand.id_ == "JJJJJ":
@@ -62,7 +60,6 @@ def convert_joker(hand: Hand) -> Hand:
 
 
 def comp_h(H_1: Hand, H_2: Hand) -> int:
-
     h1, h2 = H_1.sorted_cnt, H_2.sorted_cnt
 
     # Combo first
@@ -96,7 +93,6 @@ def comp_h(H_1: Hand, H_2: Hand) -> int:
 
 
 def run(lines, p2=False):
-
     h_s = []
     if p2:
         R_N["J"] = -1
